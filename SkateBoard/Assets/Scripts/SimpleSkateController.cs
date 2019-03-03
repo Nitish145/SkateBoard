@@ -20,6 +20,7 @@ public class SimpleSkateController : MonoBehaviour
     public float maxSteerAngle = 30;
     public float motorForce = 50;
 
+    public bool isJump = false;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -70,8 +71,21 @@ public class SimpleSkateController : MonoBehaviour
         Accelerate();
         UpdateWheelPoses();
 
-        if (Input.GetKeyDown("space"))
-            rb.AddForce(Vector3.up * jumpForce);
+        if (Input.GetKeyDown("space")) {
+            if (!isJump)
+            {
+                isJump = true;
+                rb.AddForce(Vector3.up * jumpForce * Time.deltaTime * 50);
+                StartCoroutine(MultipleJump());
+                
+            }
+        }
+    }
+    IEnumerator MultipleJump()
+    {
+        print(isJump);
+        yield return new WaitForSeconds(2);
+        isJump = false;
     }
 
 }
