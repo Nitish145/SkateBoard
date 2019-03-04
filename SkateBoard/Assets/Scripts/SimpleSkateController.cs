@@ -63,13 +63,29 @@ public class SimpleSkateController : MonoBehaviour
         _transform.position = _pos;
         _transform.rotation = _quat;
     }
+    private void AirControl()
+    {
+        if (isJump)
+        {
+            if (Input.GetKey(KeyCode.D))
+            {
+                rb.AddForce(Vector3.left * 35 * 10000 * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                rb.AddForce(Vector3.right * 35 * 10000 * Time.deltaTime);
+            }
 
+
+        }
+    }
     private void FixedUpdate()
     {
         GetInput();
         Steer();
         Accelerate();
         UpdateWheelPoses();
+        AirControl();
 
         if (Input.GetKeyDown("space")) {
             if (!isJump)
