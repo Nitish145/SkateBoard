@@ -7,9 +7,8 @@ public class SimpleSkateController : MonoBehaviour
     public Rigidbody rb;
     public float jumpForce = 10;
 
-    
-
     private float m_steeringAngle;
+    public float maxSpeed = 20f;
 
     public WheelCollider FrontLeftC, FrontRightC;
     public WheelCollider RearLeftC, RearRightC;
@@ -48,7 +47,9 @@ public class SimpleSkateController : MonoBehaviour
             m_steeringAngle = maxSteerAngle * m_leftHorizontalInput;
 
         if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow))
+        {
             m_steeringAngle = 0;
+        }
 
         FrontLeftC.steerAngle = m_steeringAngle;
         FrontRightC.steerAngle = m_steeringAngle;
@@ -129,11 +130,13 @@ public class SimpleSkateController : MonoBehaviour
         UpdateWheelPoses();
         AirControl();
 
+        
+
         if (Input.GetKeyDown("space")) {
             if (!isJump)
             {
                 isJump = true;
-                rb.AddForce(Vector3.up * jumpForce * Time.deltaTime * 50);
+                rb.AddForce(Vector3.up * jumpForce * Time.deltaTime * 50 ,ForceMode.Impulse);
                 StartCoroutine(MultipleJump());
             }
         }
